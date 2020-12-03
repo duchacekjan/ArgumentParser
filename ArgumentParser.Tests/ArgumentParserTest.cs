@@ -10,7 +10,7 @@ namespace ArgumentParser.Tests
         [InlineData("")]
         [InlineData("a")]
         [InlineData("test", "t")]
-        public void Should_HaveCorrect_NumberOfArguments(params string[] args)
+        public void Should_HaveCorrect_NumberOfRawArguments(params string[] args)
         {            
             m_sut.Parse(args);
             m_sut.RawArguments.Should().HaveCount(args.Length);
@@ -18,7 +18,7 @@ namespace ArgumentParser.Tests
 
         [Theory]
         [MemberData(nameof(NoRawArguments))]
-        public void Should_HaveNoArguments(string[] args)
+        public void Should_HaveNoRawArguments(string[] args)
         {
             m_sut.Parse(args);
             m_sut.RawArguments.Should().HaveCount(0);
@@ -29,7 +29,7 @@ namespace ArgumentParser.Tests
         [InlineData(1, "a")]
         [InlineData(1, "test", "t")]
         [InlineData(2, "test", "r")]
-        public void Should_HaveArgumentPairs_CorrectCount(int count, params string[] args)
+        public void Should_HaveCorrect_NumberOfArguments(int count, params string[] args)
         {
             m_sut.Parse(args);
             m_sut.Arguments.Should().HaveCount(count);

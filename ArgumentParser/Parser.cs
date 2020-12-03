@@ -49,14 +49,14 @@ namespace ArgumentParser
             var result = new T();
 
             m_arguments.Clear();
-            m_arguments.AddRange(GetProperties().Select(s => GetArgument(s, result)));
+            m_arguments.AddRange(GetProperties().Select(s => GetArgument(s, result)).Where(w => w != null));
 
             return result;
         }
 
         private Argument GetArgument(ArgumentInfo info, T data)
         {
-            var result = new Argument();
+            Argument result = null;
 
             return result;
         }
