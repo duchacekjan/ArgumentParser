@@ -11,6 +11,7 @@ namespace ArgumentParser
     {
         private readonly ArgumentClassAttribute m_attribute;
         private readonly List<string> m_requiredError = new List<string>();
+        private readonly List<string> m_rawArguments = new List<string>();
 
         public Parser()
         {
@@ -20,6 +21,8 @@ namespace ArgumentParser
 
         public T Parse(params string[] args)
         {
+            m_rawArguments.Clear();
+            m_rawArguments.AddRange(args);
             m_requiredError.Clear();
 
             var result = default(T);
@@ -35,6 +38,8 @@ namespace ArgumentParser
 
             return result;
         }
+
+        public IReadOnlyCollection<string> RawArgs => m_rawArguments.AsReadOnly();
 
         private T AssignArguments(List<string> args)
         {
@@ -58,37 +63,6 @@ namespace ArgumentParser
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(s => new ArgumentInfo(s, m_attribute))
                 .Where(w => w.Attribute != null);
-        }
-
-        private class ArgumentInfo
-        {
-            public ArgumentInfo(PropertyInfo propInfo, ArgumentClassAttribute attribute)
-            {
-                PropertyInfo = propInfo;
-                Attribute = propInfo?.GetCustomAttribute<ArgumentAttribute>();
-                m_switchPrefix = attribute?.Switch;
-                m_valuePrefix = attribute?.Value;
-            }
-
-            public PropertyInfo PropertyInfo { get; }
-
-            public ArgumentAttribute Attribute { get; }
-
-            private readonly string m_switchPrefix;
-            private readonly string m_valuePrefix;
-
-            public string AttributeName => GetAttributeName();
-
-            private string GetAttributeName()
-            {
-                var argumentName = Attribute?.Name;
-                if (string.IsNullOrEmpty(argumentName))
-                {
-                    argumentName = PropertyInfo?.Name;
-                }
-
-                return argumentName;
-            }
         }
     }
 }
