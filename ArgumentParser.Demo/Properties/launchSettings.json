@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "ArgumentParser.Demo": {
-      "commandName": "Project",
-      "commandLineArgs": "-Output test --IsRequired -c Release"
-    }
-  }
-}
