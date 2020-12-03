@@ -2,7 +2,6 @@
 
 namespace ArgumentParser.Tests
 {
-    [ArgumentClass]
     public class Arguments
     {
         [Argument(ArgumentType.Value, Name = "a", IsRequired = true)]
@@ -16,5 +15,8 @@ namespace ArgumentParser.Tests
 
         [Argument(ArgumentType.Value, Abbreviation = "c")]
         public Config Configuration { get; set; }
+
+        [Argument(ArgumentType.Switch, Name ="self-contained")]
+        public bool SelfContained { get; set; }
     }
 }

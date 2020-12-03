@@ -5,6 +5,9 @@ namespace ArgumentParser
 {
     internal class ArgumentInfo
     {
+        private readonly string m_switchPrefix;
+        private readonly string m_valuePrefix;
+
         public ArgumentInfo(PropertyInfo propInfo, ArgumentClassAttribute attribute)
         {
             PropertyInfo = propInfo;
@@ -16,9 +19,6 @@ namespace ArgumentParser
         public PropertyInfo PropertyInfo { get; }
 
         public ArgumentAttribute Attribute { get; }
-
-        private readonly string m_switchPrefix;
-        private readonly string m_valuePrefix;
 
         public string ArgumentName => GetArgumentName();
 

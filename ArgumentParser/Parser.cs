@@ -21,19 +21,24 @@ namespace ArgumentParser
                 ?? new ArgumentClassAttribute();
         }
 
+        public T Parse(string args)
+        {
+            return Parse(args.ToArgs());
+        }
+
         public T Parse(params string[] args)
         {
             m_rawArguments.Clear();
             m_rawArguments.AddRange(args ?? new string[0]);
             m_requiredError.Clear();
 
-            var result = default(T);
+            var result = new T();
             if (m_rawArguments.Count > 0)
             {
                 result = AssignArguments();
             }
 
-            if (m_requiredError.Any())
+            if (m_requiredError.Any() && !IgnoreRequired)
             {
                 throw new Exception($"Missing required arguments: {string.Join(", ", m_requiredError)}");
             }
@@ -44,6 +49,8 @@ namespace ArgumentParser
         public IReadOnlyCollection<string> RawArguments => m_rawArguments.AsReadOnly();
 
         public IReadOnlyCollection<Argument> Arguments => m_arguments.AsReadOnly();
+
+        public bool IgnoreRequired { get; set; }
 
         private T AssignArguments()
         {
