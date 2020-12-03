@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using ArgumentParser.Attributes;
@@ -62,7 +63,56 @@ namespace ArgumentParser
             {
                 result = new Argument
                 {
+                    Name = info.ArgumentName,
+                    Abbreviation = info.ArgumentAbbreviatedName,
+                    RawValue = GetRawArgumentValue(index, info.Attribute.Type)
                 };
+
+
+                if (info.Attribute.IsRequired && string.IsNullOrEmpty(result.RawValue))
+                {
+                    m_requiredError.Add(info.ArgumentName);
+                }
+
+                if (info.Attribute.Type != ArgumentType.Switch || !string.IsNullOrEmpty(result.RawValue))
+                {
+                    var value = GetArgumentValue(result.RawValue, info.PropertyInfo.PropertyType);
+                    info.PropertyInfo.SetValue(data, value);
+                }
+            }
+            else if (info.Attribute.IsRequired)
+            {
+                m_requiredError.Add(info.ArgumentName);
+            }
+
+            return result;
+        }
+
+        private object GetArgumentValue(string rawValue, Type propertyType)
+        {
+            object result = rawValue;
+            if (propertyType != typeof(string) && propertyType.IsValueType)
+            {
+                var typeConverter = TypeDescriptor.GetConverter(propertyType);
+                result = typeConverter.ConvertFromString(rawValue);
+            }
+
+            return result;
+        }
+
+        private string GetRawArgumentValue(int index, ArgumentType argumentType)
+        {
+            string result = null;
+            if (argumentType == ArgumentType.Switch)
+            {
+                result = "true";
+            }
+            else
+            {
+                if (index + 1 < m_rawArguments.Count)
+                {
+                    result = m_rawArguments[index + 1];
+                }
             }
 
             return result;

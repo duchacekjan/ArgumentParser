@@ -5,7 +5,7 @@ namespace ArgumentParser.Tests
     [ArgumentClass]
     public class Arguments
     {
-        [Argument(ArgumentType.Value, Name = "a")]
+        [Argument(ArgumentType.Value, Name = "a", IsRequired = true)]
         public string Text { get; set; }
 
         [Argument(ArgumentType.Value, Abbreviation = "t")]
@@ -13,5 +13,8 @@ namespace ArgumentParser.Tests
 
         [Argument(ArgumentType.Switch, Abbreviation = "r")]
         public bool IsRequired { get; set; }
+
+        [Argument(ArgumentType.Value, Abbreviation = "c")]
+        public Config Configuration { get; set; }
     }
 }
