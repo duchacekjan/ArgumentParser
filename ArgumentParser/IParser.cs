@@ -10,5 +10,7 @@ namespace ArgumentParser
         IReadOnlyCollection<Argument> Arguments { get; }
 
         T Parse(params string[] args);
+
+        bool IgnoreRequired { get; set; }
     }
 }

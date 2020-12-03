@@ -31,5 +31,13 @@ namespace ArgumentParser.Tests
             new object[]{ new[] {"-a", "test required parameter", "-configuration", "debug" }, Config.Debug },
             new object[]{ new[] {"-a", "-configuration", "Debug" }, Config.Debug }
         };
+
+        private static IParser<Arguments> GetSut(bool ignoreRequired = false)
+        {
+            return new Parser<Arguments>
+            {
+                IgnoreRequired = ignoreRequired
+            };
+        }
     }
 }

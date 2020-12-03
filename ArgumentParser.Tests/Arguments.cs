@@ -2,7 +2,6 @@
 
 namespace ArgumentParser.Tests
 {
-    [ArgumentClass]
     public class Arguments
     {
         [Argument(ArgumentType.Value, Name = "a", IsRequired = true)]

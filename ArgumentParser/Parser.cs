@@ -10,21 +10,14 @@ namespace ArgumentParser
     public class Parser<T> : IParser<T>
         where T : class, new()
     {
-        private readonly ArgumentClassAttribute m_attribute;
         private readonly List<string> m_requiredError = new List<string>();
         private readonly List<string> m_rawArguments = new List<string>();
         private readonly List<Argument> m_arguments = new List<Argument>();
 
-        public Parser()
-        {
-            m_attribute = typeof(T).GetAttributes<ArgumentClassAttribute>()?.FirstOrDefault()
-                ?? new ArgumentClassAttribute();
-        }
-
         public T Parse(params string[] args)
         {
             m_rawArguments.Clear();
-            m_rawArguments.AddRange(args ?? new string[0]);
+            m_rawArguments.AddRange(args.ClearArgs() ?? new string[0]);
             m_requiredError.Clear();
 
             var result = default(T);
@@ -33,7 +26,7 @@ namespace ArgumentParser
                 result = AssignArguments();
             }
 
-            if (m_requiredError.Any())
+            if (m_requiredError.Any() && !IgnoreRequired)
             {
                 throw new Exception($"Missing required arguments: {string.Join(", ", m_requiredError)}");
             }
@@ -44,6 +37,8 @@ namespace ArgumentParser
         public IReadOnlyCollection<string> RawArguments => m_rawArguments.AsReadOnly();
 
         public IReadOnlyCollection<Argument> Arguments => m_arguments.AsReadOnly();
+
+        public bool IgnoreRequired { get; set; }
 
         private T AssignArguments()
         {
@@ -136,7 +131,7 @@ namespace ArgumentParser
         {
             return typeof(T)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Select(s => new ArgumentInfo(s, m_attribute))
+                .Select(s => new ArgumentInfo(s))
                 .Where(w => w.Attribute != null);
         }
     }
