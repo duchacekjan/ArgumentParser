@@ -66,7 +66,7 @@ namespace ArgumentParser.Tests
 
         [Theory]
         [InlineData("c a", new[] { "c", "a" })]
-        [InlineData("-c \"some test\"", new[] { "c", "some test" })]
+        [InlineData("-c \"some test\"", new[] { "-c", "some test" })]
         public void Should_Split_StringArguments(string test, string[] expected)
         {
             var actual = test.ToArgs();
