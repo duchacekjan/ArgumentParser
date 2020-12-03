@@ -15,5 +15,8 @@ namespace ArgumentParser.Tests
 
         [Argument(ArgumentType.Value, Abbreviation = "c")]
         public Config Configuration { get; set; }
+
+        [Argument(ArgumentType.Switch, Name ="self-contained")]
+        public bool SelfContained { get; set; }
     }
 }

@@ -11,6 +11,8 @@ namespace ArgumentParser
 
         T Parse(params string[] args);
 
+        T Parse(string args);
+
         bool IgnoreRequired { get; set; }
     }
 }

@@ -21,13 +21,18 @@ namespace ArgumentParser
                 ?? new ArgumentClassAttribute();
         }
 
+        public T Parse(string args)
+        {
+            return Parse(args.ToArgs());
+        }
+
         public T Parse(params string[] args)
         {
             m_rawArguments.Clear();
             m_rawArguments.AddRange(args ?? new string[0]);
             m_requiredError.Clear();
 
-            var result = default(T);
+            var result = new T();
             if (m_rawArguments.Count > 0)
             {
                 result = AssignArguments();
