@@ -6,7 +6,7 @@ using ArgumentParser.Attributes;
 
 namespace ArgumentParser
 {
-    public class Parser<T>
+    public class Parser<T>: IParser<T>
         where T : class, new()
     {
         private readonly ArgumentClassAttribute m_attribute;
@@ -22,7 +22,7 @@ namespace ArgumentParser
         public T Parse(params string[] args)
         {
             m_rawArguments.Clear();
-            m_rawArguments.AddRange(args);
+            m_rawArguments.AddRange(args?? new string[0]);
             m_requiredError.Clear();
 
             var result = default(T);
@@ -39,7 +39,7 @@ namespace ArgumentParser
             return result;
         }
 
-        public IReadOnlyCollection<string> RawArgs => m_rawArguments.AsReadOnly();
+        public IReadOnlyCollection<string> RawArguments => m_rawArguments.AsReadOnly();
 
         private T AssignArguments(List<string> args)
         {
