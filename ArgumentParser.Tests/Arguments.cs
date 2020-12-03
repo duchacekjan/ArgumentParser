@@ -10,5 +10,8 @@ namespace ArgumentParser.Tests
 
         [Argument(ArgumentType.Value, Abbreviation = "t")]
         public string Test { get; set; }
+
+        [Argument(ArgumentType.Switch, Abbreviation = "r")]
+        public bool IsRequired { get; set; }
     }
 }

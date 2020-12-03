@@ -20,9 +20,11 @@ namespace ArgumentParser
         private readonly string m_switchPrefix;
         private readonly string m_valuePrefix;
 
-        public string AttributeName => GetAttributeName();
+        public string ArgumentName => GetArgumentName();
 
-        private string GetAttributeName()
+        public string ArgumentAbbreviatedName => WithPrefix(Attribute?.Abbreviation);
+
+        private string GetArgumentName()
         {
             var argumentName = Attribute?.Name;
             if (string.IsNullOrEmpty(argumentName))
@@ -30,7 +32,19 @@ namespace ArgumentParser
                 argumentName = PropertyInfo?.Name;
             }
 
-            return argumentName;
+            return WithPrefix(argumentName);
+        }
+
+        private string WithPrefix(string name)
+        {
+            return $"{GetPrefix()}{name?.ToLower()}";
+        }
+
+        private string GetPrefix()
+        {
+            return Attribute.Type == ArgumentType.Value
+                ? m_valuePrefix
+                : m_switchPrefix;
         }
     }
 }

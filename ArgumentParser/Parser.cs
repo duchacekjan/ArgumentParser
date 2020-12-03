@@ -57,6 +57,27 @@ namespace ArgumentParser
         private Argument GetArgument(ArgumentInfo info, T data)
         {
             Argument result = null;
+            var index = GetArgumentIndex(info);
+            if (index >= 0)
+            {
+                result = new Argument
+                {
+                };
+            }
+
+            return result;
+        }
+
+        private int GetArgumentIndex(ArgumentInfo info)
+        {
+            var args = m_rawArguments
+                .Select(s => s?.ToLower())
+                .ToList();
+            var result = args.IndexOf(info.ArgumentName);
+            if (result < 0)
+            {
+                result = args.IndexOf(info.ArgumentAbbreviatedName);
+            }
 
             return result;
         }
