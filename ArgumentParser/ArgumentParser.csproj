@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>JgsArgumentParser</PackageId>
+    <Authors>JGS</Authors>
+    <Product>JGSArgumentParser</Product>
+    <Description>Parser for cmd-line arguments</Description>
   </PropertyGroup>
 
 </Project>
