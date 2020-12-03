@@ -10,14 +10,21 @@ namespace ArgumentParser
     public class Parser<T> : IParser<T>
         where T : class, new()
     {
+        private readonly ArgumentClassAttribute m_attribute;
         private readonly List<string> m_requiredError = new List<string>();
         private readonly List<string> m_rawArguments = new List<string>();
         private readonly List<Argument> m_arguments = new List<Argument>();
 
+        public Parser()
+        {
+            m_attribute = typeof(T).GetAttributes<ArgumentClassAttribute>()?.FirstOrDefault()
+                ?? new ArgumentClassAttribute();
+        }
+
         public T Parse(params string[] args)
         {
             m_rawArguments.Clear();
-            m_rawArguments.AddRange(args.ClearArgs() ?? new string[0]);
+            m_rawArguments.AddRange(args ?? new string[0]);
             m_requiredError.Clear();
 
             var result = default(T);
@@ -131,7 +138,7 @@ namespace ArgumentParser
         {
             return typeof(T)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Select(s => new ArgumentInfo(s))
+                .Select(s => new ArgumentInfo(s, m_attribute))
                 .Where(w => w.Attribute != null);
         }
     }
