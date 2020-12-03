@@ -7,6 +7,8 @@ namespace ArgumentParser
     {
         IReadOnlyCollection<string> RawArguments { get; }
 
+        IReadOnlyCollection<Argument> Arguments { get; }
+
         T Parse(params string[] args);
     }
 }
