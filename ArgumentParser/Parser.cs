@@ -27,9 +27,9 @@ namespace ArgumentParser
             m_requiredError.Clear();
 
             var result = default(T);
-            if (args?.Length > 0)
+            if (m_rawArguments.Count > 0)
             {
-                result = AssignArguments(args.ToList());
+                result = AssignArguments();
             }
 
             if (m_requiredError.Any())
@@ -44,20 +44,21 @@ namespace ArgumentParser
 
         public IReadOnlyCollection<Argument> Arguments => m_arguments.AsReadOnly();
 
-        private T AssignArguments(List<string> args)
+        private T AssignArguments()
         {
             var result = new T();
-            foreach (var propertyWithAttribute in GetProperties())
-            {
-                var value = GetArgumentValue(propertyWithAttribute, args);
-            }
+
+            m_arguments.Clear();
+            m_arguments.AddRange(GetProperties().Select(s => GetArgument(s, result)));
 
             return result;
         }
 
-        private object GetArgumentValue(ArgumentInfo info, List<string> args)
+        private Argument GetArgument(ArgumentInfo info, T data)
         {
-            return null;
+            var result = new Argument();
+
+            return result;
         }
 
         private IEnumerable<ArgumentInfo> GetProperties()
