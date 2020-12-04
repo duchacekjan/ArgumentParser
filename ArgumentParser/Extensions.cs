@@ -7,7 +7,7 @@ namespace ArgumentParser
 {
     public static class Extensions
     {
-        private static Regex m_toArgsRE = new Regex(@"(?<="")\w[\w\s]*(?="")|(?<!\w)(-\w*)+|--\w+|\w+|""[\w\s]*""", RegexOptions.Compiled);
+        private static Regex m_toArgsRE = new Regex(@"(?<="")\w[\w\s]*(?="")|[\w.-]+|""[\w\s]*""", RegexOptions.Compiled);
 
         public static IEnumerable<T> GetAttributes<T>(this Type type, bool inherited = false)
             where T : Attribute

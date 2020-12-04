@@ -6,6 +6,9 @@
     <Authors>JGS</Authors>
     <Product>JGSArgumentParser</Product>
     <Description>Parser for cmd-line arguments</Description>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>Fixed parsing version. Simplified RegEx to parse string</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
